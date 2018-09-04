@@ -39,43 +39,38 @@ def token(request):
 
 
 def auto_reply(request):
-    try:
-        webData = request.body
-        logger.debug(
-            '''
-            =========REQUEST=========
-            %s
-            =========================
-            ''' % webData.decode("utf-8")
-        )
-        xml_data = ET.fromstring(webData)
+    webData = request.body
+    logger.debug(
+        '''
+        =========REQUEST=========
+        %s
+        =========================
+        ''' % webData.decode("utf-8")
+    )
+    xml_data = ET.fromstring(webData)
 
-        msg_type = xml_data.find('MsgType').text
-        ToUserName = xml_data.find('ToUserName').text
-        FromUserName = xml_data.find('FromUserName').text
-        CreateTime = xml_data.find('CreateTime').text
-        MsgType = xml_data.find('MsgType').text
-        MsgId = xml_data.find('MsgId').text
+    msg_type = xml_data.find('MsgType').text
+    ToUserName = xml_data.find('ToUserName').text
+    FromUserName = xml_data.find('FromUserName').text
+    CreateTime = xml_data.find('CreateTime').text
+    MsgType = xml_data.find('MsgType').text
+    MsgId = xml_data.find('MsgId').text
 
-        content = ''
-        if msg_type == 'text':
-            content = "您好,欢迎来到Python大学习!希望我们可以一起进步!"
-        elif msg_type == 'image':
-            content = "图片已收到,谢谢"
-        elif msg_type == 'voice':
-            content = "语音已收到,谢谢"
-        elif msg_type == 'video':
-            content = "视频已收到,谢谢"
-        elif msg_type == 'shortvideo':
-            content = "小视频已收到,谢谢"
-        elif msg_type == 'location':
-            content = "位置已收到,谢谢"
-        elif msg_type == 'link':
-            content = "链接已收到,谢谢"
+    content = ''
+    if msg_type == 'text':
+        content = "您好,欢迎来到Python大学习!希望我们可以一起进步!"
+    elif msg_type == 'image':
+        content = "图片已收到,谢谢"
+    elif msg_type == 'voice':
+        content = "语音已收到,谢谢"
+    elif msg_type == 'video':
+        content = "视频已收到,谢谢"
+    elif msg_type == 'shortvideo':
+        content = "小视频已收到,谢谢"
+    elif msg_type == 'location':
+        content = "位置已收到,谢谢"
+    elif msg_type == 'link':
+        content = "链接已收到,谢谢"
 
-        reply_msg = MsgUtil(ToUserName, FromUserName, content)
-        return reply_msg.send_text()
-
-    except Exception as e:
-        logger.error(str(e))
-        return e
+    reply_msg = MsgUtil(ToUserName, FromUserName, content)
+    return reply_msg.send_text()
