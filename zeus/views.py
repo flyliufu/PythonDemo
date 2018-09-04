@@ -8,5 +8,5 @@ logger = logging.getLogger("django.request")
 
 
 def token(request):
-    logger.info(request.GET['name'])
+    logger.debug(request.POST)
     return HttpResponse("123", content_type='text')
