@@ -35,6 +35,13 @@ def token(request):
             return HttpResponse("field")
     else:
         other_content = auto_reply(request)
+        logger.debug(
+            '''
+            =========RESPONSE========
+            %s
+            =========================
+            ''' % other_content
+        )
         return HttpResponse(other_content)
 
 

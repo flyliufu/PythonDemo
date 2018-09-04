@@ -1,7 +1,4 @@
 import time
-import logging
-
-logger = logging.getLogger("django.request")
 
 
 class MsgUtil:
@@ -24,11 +21,4 @@ class MsgUtil:
         </xml>
         """
         __xml = XmlForm.format(**self.__dict)
-        logger.debug(
-            '''
-            =========RESPONSE========
-            %s
-            =========================
-            ''' % __xml
-        )
         return __xml
