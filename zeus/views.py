@@ -9,7 +9,7 @@ import json
 from django.utils.encoding import smart_str
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from .controller import TextMsg
+from .controller.TextMsg import TextMsg
 
 logger = logging.getLogger("django.request")
 
@@ -35,15 +35,15 @@ def token(request):
         else:
             return HttpResponse("field")
     else:
-        othercontent = autoreply(request)
-        return HttpResponse(othercontent)
+        other_content = auto_reply(request)
+        return HttpResponse(other_content)
 
 
 # 微信服务器推送消息是xml的，根据利用ElementTree来解析出的不同xml内容返回不同的回复信息，就实现了基本的自动回复功能了，也可以按照需求用其他的XML解析方法
 import xml.etree.ElementTree as ET
 
 
-def autoreply(request):
+def auto_reply(request):
     try:
         webData = request.body
         logger.debug(
@@ -99,6 +99,3 @@ def autoreply(request):
 
     except Exception as Argument:
         return Argument
-
-
-
