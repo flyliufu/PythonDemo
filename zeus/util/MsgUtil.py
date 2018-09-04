@@ -20,5 +20,4 @@ class MsgUtil:
         <Content><![CDATA[{Content}]]></Content>
         </xml>
         """
-        __xml = XmlForm.format(**self.__dict)
-        return __xml
+        return XmlForm.format(**self.__dict)
