@@ -1,20 +1,11 @@
+from ..bean.Msg import Msg
 import time
 import logging
 
 logger = logging.getLogger("django.request")
 
 
-class Msg(object):
-    def __init__(self, xml_data):
-        logger.debug(xml_data)
-        self.ToUserName = xml_data.find('ToUserName').text
-        self.FromUserName = xml_data.find('FromUserName').text
-        self.CreateTime = xml_data.find('CreateTime').text
-        self.MsgType = xml_data.find('MsgType').text
-        self.MsgId = xml_data.find('MsgId').text
-
-
-class TextMsg(Msg):
+class MsgUtil(Msg):
     def __init__(self, toUserName, fromUserName, content):
         self.__dict = dict()
         self.__dict['ToUserName'] = toUserName

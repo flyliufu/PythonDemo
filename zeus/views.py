@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from django.shortcuts import render
-from django.http import HttpResponse
 import logging
 
 import hashlib
-import json
-from django.utils.encoding import smart_str
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from .controller.TextMsg import TextMsg
-from .controller.TokenController import TokenController
+from zeus.util.MsgUtil import MsgUtil
 
 # 微信服务器推送消息是xml的，根据利用ElementTree来解析出的不同xml内容返回不同的回复信息，就实现了基本的自动回复功能了，也可以按照需求用其他的XML解析方法
 import xml.etree.ElementTree as ET
@@ -62,46 +57,25 @@ def auto_reply(request):
         MsgType = xml_data.find('MsgType').text
         MsgId = xml_data.find('MsgId').text
 
-        toUser = FromUserName
-        fromUser = ToUserName
-
+        content = ''
         if msg_type == 'text':
             content = "您好,欢迎来到Python大学习!希望我们可以一起进步!"
-            reply_msg = TextMsg(toUser, fromUser, content)
-            print("成功了!!!!!!!!!!!!!!!!!!!")
-            print(reply_msg)
-            return reply_msg.send_text()
-
         elif msg_type == 'image':
             content = "图片已收到,谢谢"
-            reply_msg = TextMsg(toUser, fromUser, content)
-            return reply_msg.send_text()
         elif msg_type == 'voice':
             content = "语音已收到,谢谢"
-            reply_msg = TextMsg(toUser, fromUser, content)
-            return reply_msg.send_text()
         elif msg_type == 'video':
             content = "视频已收到,谢谢"
-            reply_msg = TextMsg(toUser, fromUser, content)
-            return reply_msg.send_text()
         elif msg_type == 'shortvideo':
             content = "小视频已收到,谢谢"
-            reply_msg = TextMsg(toUser, fromUser, content)
-            return reply_msg.send_text()
         elif msg_type == 'location':
             content = "位置已收到,谢谢"
-            reply_msg = TextMsg(toUser, fromUser, content)
-            return reply_msg.send_text()
         elif msg_type == 'link':
             content = "链接已收到,谢谢"
-            reply_msg = TextMsg(toUser, fromUser, content)
-            return reply_msg.send_text()
+
+        reply_msg = MsgUtil(ToUserName, FromUserName, content)
+        return reply_msg.send_text()
 
     except Exception as e:
         logger.error(e)
         return e
-
-
-def test(request):
-    t = TokenController()
-    return HttpResponse(t, content_type='text')
