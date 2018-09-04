@@ -45,7 +45,13 @@ import xml.etree.ElementTree as ET
 def autoreply(request):
     try:
         webData = request.body
-        logger.debug(webData.decode("utf-8"))
+        logger.debug(
+            '''
+            =========REQUEST=========
+            %s
+            =========================
+            ''' % webData.decode("utf-8")
+        )
         xml_data = ET.fromstring(webData)
 
         msg_type = xml_data.find('MsgType').text
@@ -126,5 +132,11 @@ class TextMsg(Msg):
         </xml>
         """
         __xml = XmlForm.format(**self.__dict)
-        logger.debug(__xml)
+        logger.debug(
+            '''
+            =========RESPONSE========
+            %s
+            =========================
+            ''' % __xml
+        )
         return __xml
