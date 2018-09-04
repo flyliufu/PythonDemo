@@ -6,6 +6,7 @@ logger = logging.getLogger("django.request")
 
 
 class MsgUtil(Msg):
+
     def __init__(self, toUserName, fromUserName, content):
         self.__dict = dict()
         self.__dict['ToUserName'] = toUserName
