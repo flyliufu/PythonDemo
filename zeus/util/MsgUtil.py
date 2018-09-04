@@ -1,11 +1,10 @@
-from ..bean.Msg import Msg
 import time
 import logging
 
 logger = logging.getLogger("django.request")
 
 
-class MsgUtil(Msg):
+class MsgUtil:
 
     def __init__(self, toUserName, fromUserName, content):
         self.__dict = dict()
