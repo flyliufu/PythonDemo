@@ -77,5 +77,5 @@ def auto_reply(request):
         return reply_msg.send_text()
 
     except Exception as e:
-        logger.error(e)
+        logger.error(str(e))
         return e
