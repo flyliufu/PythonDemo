@@ -98,4 +98,5 @@ def auto_reply(request):
             return reply_msg.send_text()
 
     except Exception as Argument:
+        logger.error(Argument)
         return Argument
