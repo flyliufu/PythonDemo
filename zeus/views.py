@@ -45,65 +45,67 @@ import xml.etree.ElementTree as ET
 def autoreply(request):
     try:
         webData = request.body
-        xmlData = ET.fromstring(webData)
+        xml_data = ET.fromstring(webData)
 
-        msg_type = xmlData.find('MsgType').text
-        ToUserName = xmlData.find('ToUserName').text
-        FromUserName = xmlData.find('FromUserName').text
-        CreateTime = xmlData.find('CreateTime').text
-        MsgType = xmlData.find('MsgType').text
-        MsgId = xmlData.find('MsgId').text
+        msg_type = xml_data.find('MsgType').text
+        ToUserName = xml_data.find('ToUserName').text
+        FromUserName = xml_data.find('FromUserName').text
+        CreateTime = xml_data.find('CreateTime').text
+        MsgType = xml_data.find('MsgType').text
+        MsgId = xml_data.find('MsgId').text
 
         toUser = FromUserName
         fromUser = ToUserName
 
         if msg_type == 'text':
             content = "您好,欢迎来到Python大学习!希望我们可以一起进步!"
-            replyMsg = TextMsg(toUser, fromUser, content)
+            reply_msg = TextMsg(toUser, fromUser, content)
             print("成功了!!!!!!!!!!!!!!!!!!!")
-            print(replyMsg)
-            return replyMsg.send()
+            print(reply_msg)
+            return reply_msg.send()
 
         elif msg_type == 'image':
             content = "图片已收到,谢谢"
-            replyMsg = TextMsg(toUser, fromUser, content)
-            return replyMsg.send()
+            reply_msg = TextMsg(toUser, fromUser, content)
+            return reply_msg.send()
         elif msg_type == 'voice':
             content = "语音已收到,谢谢"
-            replyMsg = TextMsg(toUser, fromUser, content)
-            return replyMsg.send()
+            reply_msg = TextMsg(toUser, fromUser, content)
+            return reply_msg.send()
         elif msg_type == 'video':
             content = "视频已收到,谢谢"
-            replyMsg = TextMsg(toUser, fromUser, content)
-            return replyMsg.send()
+            reply_msg = TextMsg(toUser, fromUser, content)
+            return reply_msg.send()
         elif msg_type == 'shortvideo':
             content = "小视频已收到,谢谢"
-            replyMsg = TextMsg(toUser, fromUser, content)
-            return replyMsg.send()
+            reply_msg = TextMsg(toUser, fromUser, content)
+            return reply_msg.send()
         elif msg_type == 'location':
             content = "位置已收到,谢谢"
-            replyMsg = TextMsg(toUser, fromUser, content)
-            return replyMsg.send()
-        else:
-            msg_type == 'link'
+            reply_msg = TextMsg(toUser, fromUser, content)
+            return reply_msg.send()
+        elif msg_type == 'link':
             content = "链接已收到,谢谢"
-            replyMsg = TextMsg(toUser, fromUser, content)
-            return replyMsg.send()
+            reply_msg = TextMsg(toUser, fromUser, content)
+            return reply_msg.send()
 
-    except Exception as Argment:
-        return Argment
+    except Exception as Argument:
+        return Argument
 
 
 class Msg(object):
-    def __init__(self, xmlData):
-        self.ToUserName = xmlData.find('ToUserName').text
-        self.FromUserName = xmlData.find('FromUserName').text
-        self.CreateTime = xmlData.find('CreateTime').text
-        self.MsgType = xmlData.find('MsgType').text
-        self.MsgId = xmlData.find('MsgId').text
+    def __init__(self, xml_data):
+        logger.debug(xml_data)
+        self.ToUserName = xml_data.find('ToUserName').text
+        self.FromUserName = xml_data.find('FromUserName').text
+        self.CreateTime = xml_data.find('CreateTime').text
+        self.MsgType = xml_data.find('MsgType').text
+        self.MsgId = xml_data.find('MsgId').text
 
 
 import time
+
+
 class TextMsg(Msg):
     def __init__(self, toUserName, fromUserName, content):
         self.__dict = dict()
@@ -122,4 +124,6 @@ class TextMsg(Msg):
         <Content><![CDATA[{Content}]]></Content>
         </xml>
         """
-        return XmlForm.format(**self.__dict)
+        __xml = XmlForm.format(**self.__dict)
+        logger.debug(__xml)
+        return __xml
