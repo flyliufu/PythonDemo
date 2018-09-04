@@ -1,4 +1,7 @@
 import time
+import logging
+
+logger = logging.getLogger("django.request")
 
 
 class Msg(object):
