@@ -16,43 +16,40 @@ logger = logging.getLogger("django.request")
 # django默认开启csrf防护，这里使用@csrf_exempt去掉防护
 @csrf_exempt
 def token(request):
-    try:
-        if request.method == "GET":
-            # 接收微信服务器get请求发过来的参数
-            signature = request.GET.get('signature', None)
-            timestamp = request.GET.get('timestamp', None)
-            nonce = request.GET.get('nonce', None)
-            echostr = request.GET.get('echostr', None)
-            # 服务器配置中的token
-            token = 'weixin'
-            # 把参数放到list中排序后合成一个字符串，再用sha1加密得到新的字符串与微信发来的signature对比，如果相同就返回echostr给服务器，校验通过
-            hashlist = [token, timestamp, nonce]
-            hashlist.sort()
-            hash_str = ''.join([s for s in hashlist])
-            hash_str = hashlib.sha1(hash_str.encode()).hexdigest()
-            if hash_str == signature:
-                return HttpResponse(echostr)
-            else:
-                return HttpResponse("field")
+    if request.method == "GET":
+        # 接收微信服务器get请求发过来的参数
+        signature = request.GET.get('signature', None)
+        timestamp = request.GET.get('timestamp', None)
+        nonce = request.GET.get('nonce', None)
+        echostr = request.GET.get('echostr', None)
+        # 服务器配置中的token
+        token = 'weixin'
+        # 把参数放到list中排序后合成一个字符串，再用sha1加密得到新的字符串与微信发来的signature对比，如果相同就返回echostr给服务器，校验通过
+        hashlist = [token, timestamp, nonce]
+        hashlist.sort()
+        hash_str = ''.join([s for s in hashlist])
+        hash_str = hashlib.sha1(hash_str.encode()).hexdigest()
+        if hash_str == signature:
+            return HttpResponse(echostr)
         else:
-            logger.debug(
-                '''
-                =========REQUEST=========
-                %s
-                =========================
-                ''' % request.body.decode("utf-8")
-            )
-            other_content = auto_reply(request.body)
-            logger.debug(
-                '''
-                =========RESPONSE========
-                %s
-                =========================
-                ''' % other_content
-            )
-            return HttpResponse(other_content)
-    except Exception as e:
-        logger.error(str(e))
+            return HttpResponse("field")
+    else:
+        logger.debug(
+            '''
+            =========REQUEST=========
+            %s
+            =========================
+            ''' % request.body.decode("utf-8")
+        )
+        other_content = auto_reply(request.body)
+        logger.debug(
+            '''
+            =========RESPONSE========
+            %s
+            =========================
+            ''' % other_content
+        )
+        return HttpResponse(other_content)
 
 
 def auto_reply(webData):
@@ -64,21 +61,35 @@ def auto_reply(webData):
     MsgType = xml_data.find('MsgType').text
     MsgId = xml_data.find('MsgId').text
 
-    content = ''
     if msg_type == 'text':
         content = "您好,欢迎来到Python大学习!希望我们可以一起进步!"
+        reply_msg = MsgUtil(ToUserName, FromUserName, content)
+        return reply_msg.send_text()
     elif msg_type == 'image':
         content = "图片已收到,谢谢"
+
+        reply_msg = MsgUtil(ToUserName, FromUserName, content)
+        return reply_msg.send_text()
     elif msg_type == 'voice':
         content = "语音已收到,谢谢"
+
+        reply_msg = MsgUtil(ToUserName, FromUserName, content)
+        return reply_msg.send_text()
     elif msg_type == 'video':
         content = "视频已收到,谢谢"
+
+        reply_msg = MsgUtil(ToUserName, FromUserName, content)
+        return reply_msg.send_text()
     elif msg_type == 'shortvideo':
         content = "小视频已收到,谢谢"
+
+        reply_msg = MsgUtil(ToUserName, FromUserName, content)
+        return reply_msg.send_text()
     elif msg_type == 'location':
         content = "位置已收到,谢谢"
+        reply_msg = MsgUtil(ToUserName, FromUserName, content)
+        return reply_msg.send_text()
     elif msg_type == 'link':
         content = "链接已收到,谢谢"
-
-    reply_msg = MsgUtil(ToUserName, FromUserName, content)
-    return reply_msg.send_text()
+        reply_msg = MsgUtil(ToUserName, FromUserName, content)
+        return reply_msg.send_text()
