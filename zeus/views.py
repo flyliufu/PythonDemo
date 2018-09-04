@@ -63,33 +63,18 @@ def auto_reply(webData):
 
     if msg_type == 'text':
         content = "您好,欢迎来到Python大学习!希望我们可以一起进步!"
-        reply_msg = MsgUtil(ToUserName, FromUserName, content)
-        return reply_msg.send_text()
     elif msg_type == 'image':
         content = "图片已收到,谢谢"
-
-        reply_msg = MsgUtil(ToUserName, FromUserName, content)
-        return reply_msg.send_text()
     elif msg_type == 'voice':
         content = "语音已收到,谢谢"
-
-        reply_msg = MsgUtil(ToUserName, FromUserName, content)
-        return reply_msg.send_text()
     elif msg_type == 'video':
         content = "视频已收到,谢谢"
-
-        reply_msg = MsgUtil(ToUserName, FromUserName, content)
-        return reply_msg.send_text()
     elif msg_type == 'shortvideo':
         content = "小视频已收到,谢谢"
-
-        reply_msg = MsgUtil(ToUserName, FromUserName, content)
-        return reply_msg.send_text()
     elif msg_type == 'location':
         content = "位置已收到,谢谢"
-        reply_msg = MsgUtil(ToUserName, FromUserName, content)
-        return reply_msg.send_text()
     elif msg_type == 'link':
         content = "链接已收到,谢谢"
-        reply_msg = MsgUtil(ToUserName, FromUserName, content)
-        return reply_msg.send_text()
+
+    reply_msg = MsgUtil(ToUserName, FromUserName, content)
+    return reply_msg.send_text()
