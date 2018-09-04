@@ -45,7 +45,7 @@ import xml.etree.ElementTree as ET
 def autoreply(request):
     try:
         webData = request.body
-        logger.debug(webData)
+        logger.debug(webData.decode("utf-8"))
         xml_data = ET.fromstring(webData)
 
         msg_type = xml_data.find('MsgType').text
