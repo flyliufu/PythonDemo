@@ -9,6 +9,7 @@ import json
 from django.utils.encoding import smart_str
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from .controller import TextMsg
 
 logger = logging.getLogger("django.request")
 
@@ -69,74 +70,35 @@ def autoreply(request):
             reply_msg = TextMsg(toUser, fromUser, content)
             print("成功了!!!!!!!!!!!!!!!!!!!")
             print(reply_msg)
-            return reply_msg.send()
+            return reply_msg.send_text()
 
         elif msg_type == 'image':
             content = "图片已收到,谢谢"
             reply_msg = TextMsg(toUser, fromUser, content)
-            return reply_msg.send()
+            return reply_msg.send_text()
         elif msg_type == 'voice':
             content = "语音已收到,谢谢"
             reply_msg = TextMsg(toUser, fromUser, content)
-            return reply_msg.send()
+            return reply_msg.send_text()
         elif msg_type == 'video':
             content = "视频已收到,谢谢"
             reply_msg = TextMsg(toUser, fromUser, content)
-            return reply_msg.send()
+            return reply_msg.send_text()
         elif msg_type == 'shortvideo':
             content = "小视频已收到,谢谢"
             reply_msg = TextMsg(toUser, fromUser, content)
-            return reply_msg.send()
+            return reply_msg.send_text()
         elif msg_type == 'location':
             content = "位置已收到,谢谢"
             reply_msg = TextMsg(toUser, fromUser, content)
-            return reply_msg.send()
+            return reply_msg.send_text()
         elif msg_type == 'link':
             content = "链接已收到,谢谢"
             reply_msg = TextMsg(toUser, fromUser, content)
-            return reply_msg.send()
+            return reply_msg.send_text()
 
     except Exception as Argument:
         return Argument
 
 
-class Msg(object):
-    def __init__(self, xml_data):
-        logger.debug(xml_data)
-        self.ToUserName = xml_data.find('ToUserName').text
-        self.FromUserName = xml_data.find('FromUserName').text
-        self.CreateTime = xml_data.find('CreateTime').text
-        self.MsgType = xml_data.find('MsgType').text
-        self.MsgId = xml_data.find('MsgId').text
 
-
-import time
-
-
-class TextMsg(Msg):
-    def __init__(self, toUserName, fromUserName, content):
-        self.__dict = dict()
-        self.__dict['ToUserName'] = toUserName
-        self.__dict['FromUserName'] = fromUserName
-        self.__dict['CreateTime'] = int(time.time())
-        self.__dict['Content'] = content
-
-    def send(self):
-        XmlForm = """
-        <xml>
-        <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
-        <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
-        <CreateTime>{CreateTime}</CreateTime>
-        <MsgType><![CDATA[text]]></MsgType>
-        <Content><![CDATA[{Content}]]></Content>
-        </xml>
-        """
-        __xml = XmlForm.format(**self.__dict)
-        logger.debug(
-            '''
-            =========RESPONSE========
-            %s
-            =========================
-            ''' % __xml
-        )
-        return __xml
