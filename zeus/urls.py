@@ -4,4 +4,5 @@ from . import views
 app_name = 'zeus'
 urlpatterns = [
     path('token', views.token, name='token'),
+    path('index', views.index, name='index'),
 ]

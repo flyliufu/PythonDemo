@@ -2,9 +2,12 @@
 
 import logging
 import hashlib
+
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from .controller.BusinessController import BusinessController
+from django.core.cache import caches
 
 logger = logging.getLogger("django.request")
 
@@ -47,3 +50,14 @@ def token(request):
             ''' % other_content
         )
         return HttpResponse(other_content)
+
+
+var = caches['default']
+var.set("aaa", 'bbb', timeout=5)
+
+
+def index(request):
+    context = {
+        "name": var.get('aaa')
+    }
+    return render(request, 'zeus/index.html', context=context)
