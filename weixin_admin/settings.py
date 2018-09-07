@@ -16,6 +16,8 @@ import django.utils.log
 import logging.handlers
 import os
 
+from weixin_admin.reader import LocalProperties
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -159,17 +161,17 @@ WSGI_APPLICATION = 'weixin_admin.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+pro = LocalProperties()
 DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'weixin',
-        'USER': 'root',
-        # 'PASSWORD': '123456',
-        'PASSWORD': 'Liufu123456&',
-        'HOST': 'localhost',  # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'NAME': pro.get_mysql_db_name(),
+        'USER': pro.get_mysql_user(),
+        'PASSWORD': pro.get_mysql_passwd(),
+        'HOST': pro.get_mysql_host(),  # Or an IP Address that your DB is hosted on
+        'PORT': pro.get_mysql_port(),
     }
 }
 

@@ -1,6 +1,6 @@
 import requests
 from django.core.cache import caches
-from zeus.util.reader import LocalProperties
+from weixin_admin.reader import LocalProperties
 import json
 
 BASE_URL = "https://api.weixin.qq.com/cgi-bin/%s"
