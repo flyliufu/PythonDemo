@@ -6,8 +6,9 @@ import hashlib
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from .controller.BusinessController import BusinessController
-from django.core.cache import caches
+
+from zeus.controller.BusinessController import BusinessController
+from zeus.req.Request import get_token
 
 logger = logging.getLogger("django.request")
 
@@ -52,12 +53,10 @@ def token(request):
         return HttpResponse(other_content)
 
 
-var = caches['default']
-var.set("aaa", 'bbb', timeout=5)
 
 
 def index(request):
     context = {
-        "name": var.get('aaa')
+        "name": get_token()
     }
     return render(request, 'zeus/index.html', context=context)
