@@ -1,5 +1,7 @@
 *.log
 .idea
+bin
+include
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
