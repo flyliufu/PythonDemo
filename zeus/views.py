@@ -8,7 +8,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
 from zeus.controller.BusinessController import BusinessController
-from zeus.req.Request import get_token
 
 logger = logging.getLogger("django.request")
 
@@ -51,12 +50,3 @@ def token(request):
             ''' % other_content
         )
         return HttpResponse(other_content)
-
-
-
-
-def index(request):
-    context = {
-        "name": get_token()
-    }
-    return render(request, 'zeus/index.html', context=context)

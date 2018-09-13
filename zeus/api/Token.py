@@ -1,18 +1,20 @@
 import requests
-from django.core.cache import caches
-from weixin_admin.reader import LocalProperties
+import logging
 import json
 
-BASE_URL = "https://api.weixin.qq.com/cgi-bin/%s"
+from django.core.cache import caches
+from weixin_admin.reader import LocalProperties
+from constants import URL
 
+logger = logging.getLogger("django.request")
 pro = LocalProperties()
 
 
-def get_token():
+def get_token(force_clear=False):
     var = caches['default']
     token = var.get("access_token")
-    if token is None:
-        json_str = requests.get(BASE_URL % "token", {
+    if token is None or force_clear:
+        json_str = requests.get(URL.BASE_URL % "token", {
             "grant_type": "client_credential",
             "appid": pro.get_app_id(),
             "secret": pro.get_app_secret(),
