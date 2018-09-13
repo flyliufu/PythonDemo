@@ -30,6 +30,8 @@ class BusinessController:
             content = "位置已收到,谢谢"
         elif msg_type == 'link':
             content = "链接已收到,谢谢"
+        else:
+            content = msg_type
 
         reply_msg = MsgUtil(FromUserName, ToUserName, content)
         return reply_msg.send_text()
