@@ -17,10 +17,16 @@ class BusinessController:
         ToUserName = xml_data.find('ToUserName').text
         FromUserName = xml_data.find('FromUserName').text
         CreateTime = xml_data.find('CreateTime').text
-        MsgType = xml_data.find('MsgType').text
         # MsgId = xml_data.find('MsgId').text
 
+        reply_msg = MsgUtil(FromUserName, ToUserName)
         content = "您好,欢迎来到Python学习!"
+        if msg_type == 'event':  # 触发事件消息类型
+            event = xml_data.find('Event').text
+            eventKey = xml_data.find('EventKey').text
+            if event == 'subscribe':  # 订阅事件
+                return reply_msg.send_text("终于等到你了！欢迎关注我们，未来我们一起成长！！！")
+
         if msg_type == 'text':
             content = "文本已收到,谢谢"
         elif msg_type == 'image':
@@ -35,8 +41,5 @@ class BusinessController:
             content = "位置已收到,谢谢"
         elif msg_type == 'link':
             content = "链接已收到,谢谢"
-        else:
-            content = msg_type
 
-        reply_msg = MsgUtil(FromUserName, ToUserName, content)
-        return reply_msg.send_text()
+        return reply_msg.send_text(content)

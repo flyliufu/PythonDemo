@@ -1,4 +1,3 @@
-
 class Msg(object):
     def __init__(self, xml_data):
         self.ToUserName = xml_data.find('ToUserName').text
