@@ -10,8 +10,6 @@ logger = logging.getLogger("django.request")
 class BusinessController:
 
     def auto_reply(self, body):
-        logging.debug(body)
-
         xml_data = et.fromstring(body)
         msg_type = xml_data.find('MsgType').text
         ToUserName = xml_data.find('ToUserName').text
