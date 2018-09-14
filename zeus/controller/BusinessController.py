@@ -26,6 +26,8 @@ class BusinessController:
             eventKey = xml_data.find('EventKey').text
             if event == 'subscribe':  # 订阅事件
                 return reply_msg.send_text("终于等到你了！欢迎关注我们，未来我们一起成长！！！")
+            if event == 'unsubscribe':  # 取消订阅事件
+                pass
 
         if msg_type == 'text':
             content = "文本已收到,谢谢"
